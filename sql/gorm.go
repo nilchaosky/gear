@@ -1,29 +1,29 @@
 package sql
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
-type Grom struct {
-}
-
-func (g *Grom) GetDB(DBType DBType, DBName string) *gorm.DB {
+func Gorm(DBType DBType, DBName string) *gorm.DB {
+	ActiveDBName = &DBName
 	switch DBType {
 	case MysqlType:
-		ACTIVE_DBNAME = &DBName
 		return GormMysql()
-	//case "pgsql":
-	//	global.ACTIVE_DBNAME = &global.CONFIG.Pgsql.Dbname
-	//	return GormPgSql()
-	//case "oracle":
-	//	global.ACTIVE_DBNAME = &global.CONFIG.Oracle.Dbname
-	//	return GormOracle()
-	//case "mssql":
-	//	global.ACTIVE_DBNAME = &global.CONFIG.Mssql.Dbname
-	//	return GormMssql()
-	//case "sqlite":
-	//	global.ACTIVE_DBNAME = &global.CONFIG.Sqlite.Dbname
-	//	return GormSqlite()
+	case PostgresqlType:
+		return GormPgSql()
+	case OracleType:
+		return GormOracle()
+	case SqliteType:
+		return GormSqlite()
 	default:
-		ACTIVE_DBNAME = &DBName
 		return GormMysql()
 	}
+}
+
+func bizModel(db *gorm.DB) error {
+	err := db.AutoMigrate()
+	if err != nil {
+		return err
+	}
+	return nil
 }

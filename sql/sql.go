@@ -7,10 +7,13 @@ const (
 	PostgresqlType DBType = "pgsql"
 	OracleType     DBType = "oracle"
 	SqliteType     DBType = "sqlite"
-	MssqlType      DBType = "mssql"
 )
 
 var (
-	ACTIVE_DBNAME *string
-	MysqlC        MysqlConfig
+	ActiveDBName       *string
+	MysqlC             Mysql
+	PgsqlC             Pgsql
+	OracleC            Oracle
+	SqliteC            Sqlite
+	DisableAutoMigrate bool
 )

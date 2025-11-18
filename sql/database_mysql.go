@@ -5,25 +5,33 @@ import (
 	"gorm.io/gorm"
 )
 
-type MysqlConfig struct {
+type Mysql struct {
 	GeneralDB `yaml:",inline" mapstructure:",squash"`
 }
 
-func (m *MysqlConfig) Dsn() string {
+func (m *Mysql) GetConfig() GeneralDB {
+	return m.GeneralDB
+}
+
+func (m *Mysql) Dsn() string {
 	return m.Username + ":" + m.Password + "@tcp(" + m.Path + ":" + m.Port + ")/" + m.Dbname + "?" + m.Config
 }
 
+// GormMysql 初始化Mysql数据库
+// Author [piexlmax](https://github.com/piexlmax)
+// Author [SliverHorn](https://github.com/SliverHorn)
+// Author [ByteZhou-2018](https://github.com/ByteZhou-2018)
 func GormMysql() *gorm.DB {
 	return initMysqlDatabase(MysqlC)
 }
 
 // GormMysqlByConfig 通过传入配置初始化Mysql数据库
-func GormMysqlByConfig(m MysqlConfig) *gorm.DB {
+func GormMysqlByConfig(m Mysql) *gorm.DB {
 	return initMysqlDatabase(m)
 }
 
 // initMysqlDatabase 初始化Mysql数据库的辅助函数
-func initMysqlDatabase(m MysqlConfig) *gorm.DB {
+func initMysqlDatabase(m Mysql) *gorm.DB {
 	if m.Dbname == "" {
 		return nil
 	}
@@ -39,8 +47,8 @@ func initMysqlDatabase(m MysqlConfig) *gorm.DB {
 	} else {
 		db.InstanceSet("gorm:table_options", "ENGINE="+m.Engine)
 		sqlDB, _ := db.DB()
-		sqlDB.SetMaxIdleConns(m.MaxIdleConns)
-		sqlDB.SetMaxOpenConns(m.MaxOpenConns)
+		sqlDB.SetMaxIdleConns(m.MaxIdleConn)
+		sqlDB.SetMaxOpenConns(m.MaxOpenConn)
 		return db
 	}
 }

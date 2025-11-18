@@ -9,19 +9,15 @@ type Mysql struct {
 	GeneralDB `yaml:",inline" mapstructure:",squash"`
 }
 
-func (m *Mysql) GetConfig() GeneralDB {
-	return m.GeneralDB
-}
-
-func (m *Mysql) Dsn() string {
+func (m *Mysql) dsn() string {
 	return m.Username + ":" + m.Password + "@tcp(" + m.Path + ":" + m.Port + ")/" + m.Dbname + "?" + m.Config
 }
 
-// GormMysql 初始化Mysql数据库
+// gormMysql 初始化Mysql数据库
 // Author [piexlmax](https://github.com/piexlmax)
 // Author [SliverHorn](https://github.com/SliverHorn)
 // Author [ByteZhou-2018](https://github.com/ByteZhou-2018)
-func GormMysql() *gorm.DB {
+func gormMysql() *gorm.DB {
 	return initMysqlDatabase(MysqlC)
 }
 
@@ -37,12 +33,12 @@ func initMysqlDatabase(m Mysql) *gorm.DB {
 	}
 
 	mysqlConfig := mysql.Config{
-		DSN:                       m.Dsn(), // DSN data source name
+		DSN:                       m.dsn(), // DSN data source name
 		DefaultStringSize:         191,     // string 类型字段的默认长度
 		SkipInitializeWithVersion: false,   // 根据版本自动配置
 	}
 	// 数据库配置
-	if db, err := gorm.Open(mysql.New(mysqlConfig), m.Deploy()); err != nil {
+	if db, err := gorm.Open(mysql.New(mysqlConfig), m.deploy()); err != nil {
 		panic(err)
 	} else {
 		db.InstanceSet("gorm:table_options", "ENGINE="+m.Engine)

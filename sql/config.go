@@ -9,10 +9,6 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-type DsnProvider interface {
-	Dsn() string
-}
-
 // GeneralDB 也被 Pgsql 和 Mysql 原样使用
 type GeneralDB struct {
 	Prefix      string `mapstructure:"prefix" json:"prefix" yaml:"prefix"`                      // 数据库前缀
@@ -30,7 +26,7 @@ type GeneralDB struct {
 	LogZap      bool   `mapstructure:"log-zap" json:"log-zap" yaml:"log-zap"`                   // 是否通过zap写入日志文件
 }
 
-func (g GeneralDB) LogLevel() logger.LogLevel {
+func (g GeneralDB) logLevel() logger.LogLevel {
 	switch strings.ToLower(g.LogMode) {
 	case "silent":
 		return logger.Silent
@@ -47,11 +43,11 @@ func (g GeneralDB) LogLevel() logger.LogLevel {
 
 // Deploy gorm 自定义配置
 // Author [SliverHorn](https://github.com/SliverHorn)
-func (g GeneralDB) Deploy() *gorm.Config {
+func (g GeneralDB) deploy() *gorm.Config {
 	return &gorm.Config{
-		Logger: logger.New(NewWriter(g), logger.Config{
+		Logger: logger.New(newWriter(g), logger.Config{
 			SlowThreshold: 200 * time.Millisecond,
-			LogLevel:      g.LogLevel(),
+			LogLevel:      g.logLevel(),
 			Colorful:      true,
 		}),
 		NamingStrategy: schema.NamingStrategy{

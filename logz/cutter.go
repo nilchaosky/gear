@@ -21,15 +21,15 @@ type cutter struct {
 
 type cutterOption func(*cutter)
 
-// CutterWithLayout 时间格式
-func CutterWithLayout(layout string) cutterOption {
+// cutterWithLayout 时间格式
+func cutterWithLayout(layout string) cutterOption {
 	return func(c *cutter) {
 		c.layout = layout
 	}
 }
 
-// CutterWithFormats 格式化参数
-func CutterWithFormats(format ...string) cutterOption {
+// cutterWithFormats 格式化参数
+func cutterWithFormats(format ...string) cutterOption {
 	return func(c *cutter) {
 		if len(format) > 0 {
 			c.formats = format
@@ -37,7 +37,7 @@ func CutterWithFormats(format ...string) cutterOption {
 	}
 }
 
-func NewCutter(director string, level string, retentionDay int, options ...cutterOption) *cutter {
+func newCutter(director string, level string, retentionDay int, options ...cutterOption) *cutter {
 	rotate := &cutter{
 		level:        level,
 		director:     director,

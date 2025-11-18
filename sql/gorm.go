@@ -7,16 +7,16 @@ import (
 func Gorm(DBType DBType, DBName string) *gorm.DB {
 	ActiveDBName = &DBName
 	switch DBType {
-	case MysqlType:
-		return GormMysql()
-	case PostgresqlType:
-		return GormPgSql()
-	case OracleType:
-		return GormOracle()
-	case SqliteType:
-		return GormSqlite()
+	case mysqlType:
+		return gormMysql()
+	case postgresqlType:
+		return gormPgSql()
+	case oracleType:
+		return gormOracle()
+	case sqliteType:
+		return gormSqlite()
 	default:
-		return GormMysql()
+		return gormMysql()
 	}
 }
 

@@ -11,12 +11,12 @@ type Sqlite struct {
 	GeneralDB `yaml:",inline" mapstructure:",squash"`
 }
 
-func (s *Sqlite) Dsn() string {
+func (s *Sqlite) dsn() string {
 	return filepath.Join(s.Path, s.Dbname+".db")
 }
 
-// GormSqlite 初始化Sqlite数据库
-func GormSqlite() *gorm.DB {
+// gormSqlite 初始化Sqlite数据库
+func gormSqlite() *gorm.DB {
 	return initSqliteDatabase(SqliteC)
 }
 
@@ -32,7 +32,7 @@ func initSqliteDatabase(s Sqlite) *gorm.DB {
 	}
 
 	// 数据库配置
-	if db, err := gorm.Open(sqlite.Open(s.Dsn()), s.Deploy()); err != nil {
+	if db, err := gorm.Open(sqlite.Open(s.dsn()), s.deploy()); err != nil {
 		panic(err)
 	} else {
 		sqlDB, _ := db.DB()

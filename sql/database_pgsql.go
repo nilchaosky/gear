@@ -9,22 +9,22 @@ type Pgsql struct {
 	GeneralDB `yaml:",inline" mapstructure:",squash"`
 }
 
-// Dsn 基于配置文件获取 dsn
+// dsn 基于配置文件获取 dsn
 // Author [SliverHorn](https://github.com/SliverHorn)
-func (p *Pgsql) Dsn() string {
+func (p *Pgsql) dsn() string {
 	return "host=" + p.Path + " user=" + p.Username + " password=" + p.Password + " dbname=" + p.Dbname + " port=" + p.Port + " " + p.Config
 }
 
-// LinkDsn 根据 dbname 生成 dsn
+// linkDsn 根据 dbname 生成 dsn
 // Author [SliverHorn](https://github.com/SliverHorn)
-func (p *Pgsql) LinkDsn(dbname string) string {
+func (p *Pgsql) linkDsn(dbname string) string {
 	return "host=" + p.Path + " user=" + p.Username + " password=" + p.Password + " dbname=" + dbname + " port=" + p.Port + " " + p.Config
 }
 
-// GormPgSql 初始化 Postgresql 数据库
+// gormPgSql 初始化 Postgresql 数据库
 // Author [piexlmax](https://github.com/piexlmax)
 // Author [SliverHorn](https://github.com/SliverHorn)
-func GormPgSql() *gorm.DB {
+func gormPgSql() *gorm.DB {
 	return initPgSqlDatabase(PgsqlC)
 }
 
@@ -39,11 +39,11 @@ func initPgSqlDatabase(p Pgsql) *gorm.DB {
 		return nil
 	}
 	pgsqlConfig := postgres.Config{
-		DSN:                  p.Dsn(), // DSN data source name
+		DSN:                  p.dsn(), // DSN data source name
 		PreferSimpleProtocol: false,
 	}
 	// 数据库配置
-	if db, err := gorm.Open(postgres.New(pgsqlConfig), p.Deploy()); err != nil {
+	if db, err := gorm.Open(postgres.New(pgsqlConfig), p.deploy()); err != nil {
 		panic(err)
 	} else {
 		sqlDB, _ := db.DB()

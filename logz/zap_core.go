@@ -24,12 +24,12 @@ func newZapCore(level zapcore.Level) *zapCore {
 }
 
 func (z *zapCore) writeSyncer(formats ...string) zapcore.WriteSyncer {
-	cutter := NewCutter(
+	cutter := newCutter(
 		Config.Director,
 		z.level.String(),
 		Config.RetentionDay,
-		CutterWithLayout(time.DateOnly),
-		CutterWithFormats(formats...),
+		cutterWithLayout(time.DateOnly),
+		cutterWithFormats(formats...),
 	)
 	if Config.LogInConsole {
 		multiSyncer := zapcore.NewMultiWriteSyncer(os.Stdout, cutter)

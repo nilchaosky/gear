@@ -5,7 +5,7 @@ import (
 	"net"
 	"net/url"
 
-	"github.com/oracle-samples/gorm-oracle/oracle"
+	"github.com/dzwvip/gorm-oracle"
 	"gorm.io/gorm"
 )
 
@@ -13,14 +13,14 @@ type Oracle struct {
 	GeneralDB `yaml:",inline" mapstructure:",squash"`
 }
 
-func (m *Oracle) Dsn() string {
+func (m *Oracle) dsn() string {
 	dsn := fmt.Sprintf("oracle://%s:%s@%s/%s?%s", url.PathEscape(m.Username), url.PathEscape(m.Password),
 		net.JoinHostPort(m.Path, m.Port), url.PathEscape(m.Dbname), m.Config)
 	return dsn
 }
 
-// GormOracle 初始化oracle数据库
-func GormOracle() *gorm.DB {
+// gormOracle 初始化oracle数据库
+func gormOracle() *gorm.DB {
 	return initOracleDatabase(OracleC)
 }
 
@@ -35,7 +35,7 @@ func initOracleDatabase(m Oracle) *gorm.DB {
 		return nil
 	}
 	// 数据库配置
-	if db, err := gorm.Open(oracle.Open(m.Dsn()), m.Deploy()); err != nil {
+	if db, err := gorm.Open(oracle.Open(m.dsn()), m.deploy()); err != nil {
 		panic(err)
 	} else {
 		sqlDB, _ := db.DB()

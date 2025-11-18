@@ -1,4 +1,4 @@
-package log
+package logz
 
 import (
 	"time"
@@ -6,7 +6,7 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-type ZapConfig struct {
+type Logger struct {
 	Level         string `mapstructure:"level" json:"level" yaml:"level"`                            // 级别
 	Prefix        string `mapstructure:"prefix" json:"prefix" yaml:"prefix"`                         // 日志前缀
 	Format        string `mapstructure:"format" json:"format" yaml:"format"`                         // 输出
@@ -19,9 +19,9 @@ type ZapConfig struct {
 }
 
 // Levels 根据字符串转化为 zapcore.Levels
-func (c *ZapConfig) Levels() []zapcore.Level {
+func (l *Logger) Levels() []zapcore.Level {
 	levels := make([]zapcore.Level, 0, 7)
-	level, err := zapcore.ParseLevel(c.Level)
+	level, err := zapcore.ParseLevel(l.Level)
 	if err != nil {
 		level = zapcore.DebugLevel
 	}
@@ -31,23 +31,23 @@ func (c *ZapConfig) Levels() []zapcore.Level {
 	return levels
 }
 
-func (c *ZapConfig) Encoder() zapcore.Encoder {
+func (l *Logger) Encoder() zapcore.Encoder {
 	config := zapcore.EncoderConfig{
 		TimeKey:       "time",
 		NameKey:       "name",
 		LevelKey:      "level",
 		CallerKey:     "caller",
 		MessageKey:    "message",
-		StacktraceKey: c.StacktraceKey,
+		StacktraceKey: l.StacktraceKey,
 		LineEnding:    zapcore.DefaultLineEnding,
 		EncodeTime: func(t time.Time, encoder zapcore.PrimitiveArrayEncoder) {
-			encoder.AppendString(c.Prefix + t.Format("2006-01-02 15:04:05.000"))
+			encoder.AppendString(l.Prefix + t.Format("2006-01-02 15:04:05.000"))
 		},
-		EncodeLevel:    c.LevelEncoder(),
+		EncodeLevel:    l.LevelEncoder(),
 		EncodeCaller:   zapcore.FullCallerEncoder,
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 	}
-	if c.Format == "json" {
+	if l.Format == "json" {
 		return zapcore.NewJSONEncoder(config)
 	}
 	return zapcore.NewConsoleEncoder(config)
@@ -56,15 +56,15 @@ func (c *ZapConfig) Encoder() zapcore.Encoder {
 
 // LevelEncoder 根据 EncodeLevel 返回 zapcore.LevelEncoder
 // Author [SliverHorn](https://github.com/SliverHorn)
-func (c *ZapConfig) LevelEncoder() zapcore.LevelEncoder {
+func (l *Logger) LevelEncoder() zapcore.LevelEncoder {
 	switch {
-	case c.EncodeLevel == "LowercaseLevelEncoder": // 小写编码器(默认)
+	case l.EncodeLevel == "LowercaseLevelEncoder": // 小写编码器(默认)
 		return zapcore.LowercaseLevelEncoder
-	case c.EncodeLevel == "LowercaseColorLevelEncoder": // 小写编码器带颜色
+	case l.EncodeLevel == "LowercaseColorLevelEncoder": // 小写编码器带颜色
 		return zapcore.LowercaseColorLevelEncoder
-	case c.EncodeLevel == "CapitalLevelEncoder": // 大写编码器
+	case l.EncodeLevel == "CapitalLevelEncoder": // 大写编码器
 		return zapcore.CapitalLevelEncoder
-	case c.EncodeLevel == "CapitalColorLevelEncoder": // 大写编码器带颜色
+	case l.EncodeLevel == "CapitalColorLevelEncoder": // 大写编码器带颜色
 		return zapcore.CapitalColorLevelEncoder
 	default:
 		return zapcore.LowercaseLevelEncoder

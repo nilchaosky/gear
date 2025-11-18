@@ -1,4 +1,4 @@
-package log
+package logz
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	Config *ZapConfig
+	Config *Logger
 	Print  *zap.Logger
 )
 

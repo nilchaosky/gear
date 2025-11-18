@@ -3,7 +3,7 @@ package sql
 import (
 	"fmt"
 
-	"github.com/nilchaosky/gear/log"
+	"github.com/nilchaosky/gear/logz"
 	"gorm.io/gorm/logger"
 )
 
@@ -23,18 +23,18 @@ func (c *Writer) Printf(message string, data ...any) {
 	fmt.Printf(message, data...)
 
 	// 当开启了zap的情况，会打印到日志记录
-	if log.Print != nil && c.config.LogZap {
+	if logz.Print != nil && c.config.LogZap {
 		switch c.config.LogLevel() {
 		case logger.Silent:
-			log.Print.Debug(fmt.Sprintf(message, data...))
+			logz.Print.Debug(fmt.Sprintf(message, data...))
 		case logger.Error:
-			log.Print.Error(fmt.Sprintf(message, data...))
+			logz.Print.Error(fmt.Sprintf(message, data...))
 		case logger.Warn:
-			log.Print.Warn(fmt.Sprintf(message, data...))
+			logz.Print.Warn(fmt.Sprintf(message, data...))
 		case logger.Info:
-			log.Print.Info(fmt.Sprintf(message, data...))
+			logz.Print.Info(fmt.Sprintf(message, data...))
 		default:
-			log.Print.Info(fmt.Sprintf(message, data...))
+			logz.Print.Info(fmt.Sprintf(message, data...))
 		}
 		return
 	}

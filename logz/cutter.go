@@ -1,4 +1,4 @@
-package log
+package logz
 
 import (
 	"os"
@@ -8,11 +8,11 @@ import (
 )
 
 // Cutter 实现 io.Writer 接口
-// 用于日志切割, strings.Join([]string{director,layout, formats..., level+".log"}, os.PathSeparator)
+// 用于日志切割, strings.Join([]string{director,layout, formats..., level+".logz"}, os.PathSeparator)
 type Cutter struct {
 	level        string        // 日志级别(debug, info, warn, error, dpanic, panic, fatal)
 	layout       string        // 时间格式 2006-01-02 15:04:05
-	formats      []string      // 自定义参数([]string{Director,"2006-01-02", "business"(此参数可不写), level+".log"}
+	formats      []string      // 自定义参数([]string{Director,"2006-01-02", "business"(此参数可不写), level+".logz"}
 	director     string        // 日志文件夹
 	retentionDay int           //日志保留天数
 	file         *os.File      // 文件句柄
@@ -72,7 +72,7 @@ func (c *Cutter) Write(bytes []byte) (n int, err error) {
 	for i := 0; i < length; i++ {
 		values = append(values, c.formats[i])
 	}
-	values = append(values, c.level+".log")
+	values = append(values, c.level+".logz")
 	filename := filepath.Join(values...)
 	director := filepath.Dir(filename)
 	err = os.MkdirAll(director, os.ModePerm)

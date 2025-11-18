@@ -19,7 +19,7 @@ type Logger struct {
 }
 
 // Levels 根据字符串转化为 zapcore.Levels
-func (l *Logger) Levels() []zapcore.Level {
+func (l *Logger) levels() []zapcore.Level {
 	levels := make([]zapcore.Level, 0, 7)
 	level, err := zapcore.ParseLevel(l.Level)
 	if err != nil {
@@ -31,7 +31,7 @@ func (l *Logger) Levels() []zapcore.Level {
 	return levels
 }
 
-func (l *Logger) Encoder() zapcore.Encoder {
+func (l *Logger) encoder() zapcore.Encoder {
 	config := zapcore.EncoderConfig{
 		TimeKey:       "time",
 		NameKey:       "name",

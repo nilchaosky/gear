@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	Config *Logger
+	Config Logger
 	Print  *zap.Logger
 )
 
@@ -21,11 +21,11 @@ func Zap() (logger *zap.Logger) {
 		fmt.Printf("create %v directory\n", Config.Director)
 		_ = os.Mkdir(Config.Director, os.ModePerm)
 	}
-	levels := Config.Levels()
-	length := len(Config.Levels())
+	levels := Config.levels()
+	length := len(Config.levels())
 	cores := make([]zapcore.Core, 0, length)
 	for i := 0; i < length; i++ {
-		core := NewZapCore(levels[i])
+		core := newZapCore(levels[i])
 		cores = append(cores, core)
 	}
 	logger = zap.New(zapcore.NewTee(cores...))

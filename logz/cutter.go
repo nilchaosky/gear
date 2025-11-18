@@ -9,7 +9,7 @@ import (
 
 // Cutter 实现 io.Writer 接口
 // 用于日志切割, strings.Join([]string{director,layout, formats..., level+".logz"}, os.PathSeparator)
-type Cutter struct {
+type cutter struct {
 	level        string        // 日志级别(debug, info, warn, error, dpanic, panic, fatal)
 	layout       string        // 时间格式 2006-01-02 15:04:05
 	formats      []string      // 自定义参数([]string{Director,"2006-01-02", "business"(此参数可不写), level+".logz"}
@@ -19,26 +19,26 @@ type Cutter struct {
 	mutex        *sync.RWMutex // 读写锁
 }
 
-type CutterOption func(*Cutter)
+type cutterOption func(*cutter)
 
 // CutterWithLayout 时间格式
-func CutterWithLayout(layout string) CutterOption {
-	return func(c *Cutter) {
+func CutterWithLayout(layout string) cutterOption {
+	return func(c *cutter) {
 		c.layout = layout
 	}
 }
 
 // CutterWithFormats 格式化参数
-func CutterWithFormats(format ...string) CutterOption {
-	return func(c *Cutter) {
+func CutterWithFormats(format ...string) cutterOption {
+	return func(c *cutter) {
 		if len(format) > 0 {
 			c.formats = format
 		}
 	}
 }
 
-func NewCutter(director string, level string, retentionDay int, options ...CutterOption) *Cutter {
-	rotate := &Cutter{
+func NewCutter(director string, level string, retentionDay int, options ...cutterOption) *cutter {
+	rotate := &cutter{
 		level:        level,
 		director:     director,
 		retentionDay: retentionDay,
@@ -54,7 +54,7 @@ func NewCutter(director string, level string, retentionDay int, options ...Cutte
 // appropriate file handle that is currently being used.
 // If we have reached rotation time, the target file gets
 // automatically rotated, and also purged if necessary.
-func (c *Cutter) Write(bytes []byte) (n int, err error) {
+func (c *cutter) Write(bytes []byte) (n int, err error) {
 	c.mutex.Lock()
 	defer func() {
 		if c.file != nil {
@@ -90,7 +90,7 @@ func (c *Cutter) Write(bytes []byte) (n int, err error) {
 	return c.file.Write(bytes)
 }
 
-func (c *Cutter) Sync() error {
+func (c *cutter) Sync() error {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 

@@ -1,6 +1,7 @@
 package sql
 
 import (
+	"github.com/nilchaosky/gear/logz"
 	"gorm.io/gorm"
 )
 
@@ -18,6 +19,7 @@ func Gorm(DBType DBType, DBName string) *gorm.DB {
 	default:
 		DB = gormMysql()
 	}
+	logz.Print.Info("Database connection successful")
 	return DB
 }
 

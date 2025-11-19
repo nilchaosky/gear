@@ -3,7 +3,9 @@ package redis
 import (
 	"context"
 
+	"github.com/nilchaosky/gear/logz"
 	"github.com/redis/go-redis/v9"
+	"go.uber.org/zap"
 )
 
 var (
@@ -27,10 +29,13 @@ func initRedisClient(c Config) (redis.UniversalClient, error) {
 			DB:       c.DB,
 		})
 	}
-	_, err := client.Ping(context.Background()).Result()
+	pong, err := client.Ping(context.Background()).Result()
 	if err != nil {
+		logz.Print.Error("redis connect ping failed, err:", zap.String("name", c.Name), zap.Error(err))
 		return nil, err
 	}
+
+	logz.Print.Info("redis connect ping response:", zap.String("name", c.Name), zap.String("pong", pong))
 	return client, nil
 }
 

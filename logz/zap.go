@@ -11,12 +11,18 @@ import (
 
 var (
 	config Config
-	Print  *zap.Logger
+	Print  = defaultLogger()
 )
+
+func defaultLogger() *zap.Logger {
+	logger, _ := zap.NewDevelopment()
+	return logger
+}
 
 // Zap 获取 zap.Logger
 // Author [SliverHorn](https://github.com/SliverHorn)
 func Zap(c Config) (logger *zap.Logger) {
+
 	config = c
 	if ok, _ := utils.PathExists(config.Director); !ok { // 判断是否有Director文件夹
 		fmt.Printf("create %v directory\n", config.Director)

@@ -1,5 +1,7 @@
 package sql
 
+import "gorm.io/gorm"
+
 type DBType string
 
 const (
@@ -10,6 +12,7 @@ const (
 )
 
 var (
+	DB           *gorm.DB
 	ActiveDBName *string
 	MysqlC       Mysql
 	PgsqlC       Pgsql

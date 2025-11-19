@@ -8,20 +8,22 @@ func Gorm(DBType DBType, DBName string) *gorm.DB {
 	ActiveDBName = &DBName
 	switch DBType {
 	case mysqlType:
-		return gormMysql()
+		DB = gormMysql()
+
 	case postgresqlType:
-		return gormPgSql()
+		DB = gormPgSql()
 	case oracleType:
-		return gormOracle()
+		DB = gormOracle()
 	case sqliteType:
-		return gormSqlite()
+		DB = gormSqlite()
 	default:
-		return gormMysql()
+		DB = gormMysql()
 	}
+	return DB
 }
 
-func bizModel(db *gorm.DB) error {
-	err := db.AutoMigrate()
+func bizModel() error {
+	err := DB.AutoMigrate()
 	if err != nil {
 		return err
 	}

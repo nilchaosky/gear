@@ -14,8 +14,8 @@ const (
 var (
 	DB           *gorm.DB
 	ActiveDBName *string
-	MysqlC       Mysql
-	PgsqlC       Pgsql
-	OracleC      Oracle
-	SqliteC      Sqlite
+	Mysql        MysqlCfg
+	Pgsql        PgsqlCfg
+	Oracle       OracleCfg
+	Sqlite       SqliteCfg
 )

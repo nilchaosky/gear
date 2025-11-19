@@ -1,6 +1,6 @@
 package redis
 
-type Config struct {
+type config struct {
 	Name     string  `mapstructure:"name" json:"name" yaml:"name"`             // 代表当前实例的名字
 	Addr     string  `mapstructure:"addr" json:"addr" yaml:"addr"`             // 服务器地址:端口
 	Password string  `mapstructure:"password" json:"password" yaml:"password"` // 密码

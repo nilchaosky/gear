@@ -9,7 +9,6 @@ func Gorm(DBType DBType, DBName string) *gorm.DB {
 	switch DBType {
 	case mysqlType:
 		DB = gormMysql()
-
 	case postgresqlType:
 		DB = gormPgSql()
 	case oracleType:

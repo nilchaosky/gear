@@ -9,11 +9,11 @@ import (
 	"gorm.io/gorm"
 )
 
-type Oracle struct {
+type OracleCfg struct {
 	GeneralDB `yaml:",inline" mapstructure:",squash"`
 }
 
-func (m *Oracle) dsn() string {
+func (m *OracleCfg) dsn() string {
 	dsn := fmt.Sprintf("oracle://%s:%s@%s/%s?%s", url.PathEscape(m.Username), url.PathEscape(m.Password),
 		net.JoinHostPort(m.Path, m.Port), url.PathEscape(m.Dbname), m.Config)
 	return dsn
@@ -21,16 +21,16 @@ func (m *Oracle) dsn() string {
 
 // gormOracle 初始化oracle数据库
 func gormOracle() *gorm.DB {
-	return initOracleDatabase(OracleC)
+	return initOracleDatabase(Oracle)
 }
 
-// GormOracleByConfig 初始化Oracle数据库用过传入配置
-func GormOracleByConfig(m Oracle) *gorm.DB {
+// GormOracleByconfig 初始化Oracle数据库用过传入配置
+func GormOracleByconfig(m OracleCfg) *gorm.DB {
 	return initOracleDatabase(m)
 }
 
 // initOracleDatabase 初始化Oracle数据库的辅助函数
-func initOracleDatabase(m Oracle) *gorm.DB {
+func initOracleDatabase(m OracleCfg) *gorm.DB {
 	if m.Dbname == "" {
 		return nil
 	}

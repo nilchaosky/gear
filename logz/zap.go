@@ -10,26 +10,27 @@ import (
 )
 
 var (
-	Config Logger
+	config Config
 	Print  *zap.Logger
 )
 
 // Zap 获取 zap.Logger
 // Author [SliverHorn](https://github.com/SliverHorn)
-func Zap() (logger *zap.Logger) {
-	if ok, _ := utils.PathExists(Config.Director); !ok { // 判断是否有Director文件夹
-		fmt.Printf("create %v directory\n", Config.Director)
-		_ = os.Mkdir(Config.Director, os.ModePerm)
+func Zap(c Config) (logger *zap.Logger) {
+	config = c
+	if ok, _ := utils.PathExists(config.Director); !ok { // 判断是否有Director文件夹
+		fmt.Printf("create %v directory\n", config.Director)
+		_ = os.Mkdir(config.Director, os.ModePerm)
 	}
-	levels := Config.levels()
-	length := len(Config.levels())
+	levels := config.levels()
+	length := len(config.levels())
 	cores := make([]zapcore.Core, 0, length)
 	for i := 0; i < length; i++ {
 		core := newZapCore(levels[i])
 		cores = append(cores, core)
 	}
 	logger = zap.New(zapcore.NewTee(cores...))
-	if Config.ShowLine {
+	if config.ShowLine {
 		logger = logger.WithOptions(zap.AddCaller())
 	}
 	Print = logger

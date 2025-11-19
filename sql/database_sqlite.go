@@ -7,26 +7,26 @@ import (
 	"gorm.io/gorm"
 )
 
-type Sqlite struct {
+type SqliteCfg struct {
 	GeneralDB `yaml:",inline" mapstructure:",squash"`
 }
 
-func (s *Sqlite) dsn() string {
+func (s *SqliteCfg) dsn() string {
 	return filepath.Join(s.Path, s.Dbname+".db")
 }
 
 // gormSqlite 初始化Sqlite数据库
 func gormSqlite() *gorm.DB {
-	return initSqliteDatabase(SqliteC)
+	return initSqliteDatabase(Sqlite)
 }
 
-// GormSqliteByConfig 初始化Sqlite数据库用过传入配置
-func GormSqliteByConfig(s Sqlite) *gorm.DB {
+// GormSqliteByconfig 初始化Sqlite数据库用过传入配置
+func GormSqliteByconfig(s SqliteCfg) *gorm.DB {
 	return initSqliteDatabase(s)
 }
 
 // initSqliteDatabase 初始化Sqlite数据库辅助函数
-func initSqliteDatabase(s Sqlite) *gorm.DB {
+func initSqliteDatabase(s SqliteCfg) *gorm.DB {
 	if s.Dbname == "" {
 		return nil
 	}

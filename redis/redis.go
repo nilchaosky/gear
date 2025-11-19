@@ -11,7 +11,7 @@ var (
 	ClientMap map[string]redis.UniversalClient
 )
 
-func initRedisClient(c Config) (redis.UniversalClient, error) {
+func initRedisClient(c config) (redis.UniversalClient, error) {
 	var client redis.UniversalClient
 	// 使用集群模式
 	if c.Cluster.Enable {
@@ -34,7 +34,7 @@ func initRedisClient(c Config) (redis.UniversalClient, error) {
 	return client, nil
 }
 
-func Redis(c Config) {
+func Redis(c config) {
 	client, err := initRedisClient(c)
 	if err != nil {
 		panic(err)
@@ -42,7 +42,7 @@ func Redis(c Config) {
 	Client = client
 }
 
-func RedisList(list []Config) {
+func RedisList(list []config) {
 	redisMap := make(map[string]redis.UniversalClient)
 
 	for _, c := range list {

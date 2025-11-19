@@ -72,7 +72,7 @@ func (c *cutter) Write(bytes []byte) (n int, err error) {
 	for i := 0; i < length; i++ {
 		values = append(values, c.formats[i])
 	}
-	values = append(values, c.level+".logz")
+	values = append(values, c.level+".log")
 	filename := filepath.Join(values...)
 	director := filepath.Dir(filename)
 	err = os.MkdirAll(director, os.ModePerm)

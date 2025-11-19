@@ -22,8 +22,10 @@ func defaultLogger() *zap.Logger {
 // Zap 获取 zap.Logger
 // Author [SliverHorn](https://github.com/SliverHorn)
 func Zap(c Config) (logger *zap.Logger) {
-
 	config = c
+	if config.Director == "" {
+		config.Director = "logs"
+	}
 	if ok, _ := utils.PathExists(config.Director); !ok { // 判断是否有Director文件夹
 		fmt.Printf("create %v directory\n", config.Director)
 		_ = os.Mkdir(config.Director, os.ModePerm)

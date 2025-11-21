@@ -22,11 +22,3 @@ func Gorm(DBType DBType, DBName string) *gorm.DB {
 	logz.Print.Info("Database connection successful")
 	return DB
 }
-
-func bizModel() error {
-	err := DB.AutoMigrate()
-	if err != nil {
-		return err
-	}
-	return nil
-}

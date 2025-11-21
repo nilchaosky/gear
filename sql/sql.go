@@ -1,6 +1,10 @@
 package sql
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type DBType string
 
@@ -18,4 +22,15 @@ var (
 	Pgsql        PgsqlCfg
 	Oracle       OracleCfg
 	Sqlite       SqliteCfg
+)
+
+type (
+	BaseModel struct {
+		ID        int64     `gorm:"primarykey;column:id" json:"id"`      // 主键ID
+		CreatedAt time.Time `gorm:"column:created_at" json:"created_at"` // 创建时间
+		UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"` // 更新时间
+	}
+	DeleteModel struct {
+		DeletedAt gorm.DeletedAt `gorm:"index;column:deleted_at" json:"-"` //软删除
+	}
 )

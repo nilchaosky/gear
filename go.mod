@@ -1,6 +1,6 @@
 module github.com/nilchaosky/gear
 
-go 1.25.4
+go 1.24.0
 
 require (
 	github.com/dzwvip/gorm-oracle v0.1.2
@@ -13,6 +13,7 @@ require (
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/driver/sqlite v1.6.0
 	gorm.io/gorm v1.31.1
+	gorm.io/plugin/optimisticlock v1.1.3
 )
 
 require (
@@ -43,5 +44,4 @@ require (
 	golang.org/x/sync v0.18.0 // indirect
 	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/text v0.31.0 // indirect
-	gorm.io/plugin/optimisticlock v1.1.3 // indirect
 )

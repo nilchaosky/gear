@@ -26,13 +26,18 @@ var (
 )
 
 type (
-	BaseModel struct {
-		ID        int64     `gorm:"primarykey;column:id" json:"id"`      // 主键ID
-		CreatedAt time.Time `gorm:"column:created_at" json:"created_at"` // 创建时间
-		UpdatedAt time.Time `gorm:"column:updated_at" json:"updated_at"` // 更新时间
+	IdModel struct {
+		ID int64 `gorm:"primarykey;column:id;autoIncrement:false" json:"id"` // 主键ID
+	}
+	AutoIncrementIdModel struct {
+		ID int64 `gorm:"primarykey;column:id;" json:"id"` // 主键ID
 	}
 	VersionModel struct {
 		Version optimisticlock.Version `gorm:"column:_version" json:"-"`
+	}
+	TimeModel struct {
+		CreatedAt time.Time `gorm:"column:created_at;not null" json:"created_at"` // 创建时间
+		UpdatedAt time.Time `gorm:"column:updated_at;not null" json:"updated_at"` // 更新时间
 	}
 	DeleteModel struct {
 		DeletedAt gorm.DeletedAt `gorm:"index;column:deleted_at" json:"-"` //软删除

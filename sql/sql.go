@@ -27,13 +27,13 @@ var (
 
 type (
 	IdModel struct {
-		ID int64 `gorm:"primarykey;column:id;autoIncrement:false" json:"id"` // 主键ID
+		ID uint64 `gorm:"primarykey;column:id;type:bigint unsigned;autoIncrement:false" json:"id"` // 主键ID
 	}
 	AutoIncrementIdModel struct {
-		ID int64 `gorm:"primarykey;column:id;" json:"id"` // 主键ID
+		ID uint64 `gorm:"primarykey;column:id;type:bigint unsigned" json:"id"` // 主键ID
 	}
 	VersionModel struct {
-		Version optimisticlock.Version `gorm:"column:_version" json:"-"`
+		Version optimisticlock.Version `gorm:"column:_version;type:int unsigned" json:"-"`
 	}
 	TimeModel struct {
 		CreatedAt time.Time `gorm:"column:created_at;not null" json:"created_at"` // 创建时间

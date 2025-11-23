@@ -27,10 +27,10 @@ var (
 
 type (
 	IdModel struct {
-		ID uint64 `gorm:"primarykey;column:id;type:bigint unsigned;autoIncrement:false" json:"id"` // 主键ID
+		ID int64 `gorm:"primarykey;column:id;autoIncrement:false" json:"id"` // 主键ID
 	}
 	AutoIncrementIdModel struct {
-		ID uint64 `gorm:"primarykey;column:id;type:bigint unsigned" json:"id"` // 主键ID
+		ID int64 `gorm:"primarykey;column:id unsigned" json:"id"` // 主键ID
 	}
 	VersionModel struct {
 		Version optimisticlock.Version `gorm:"column:_version;type:int unsigned" json:"-"`

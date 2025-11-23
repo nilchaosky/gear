@@ -3,6 +3,7 @@ module github.com/nilchaosky/gear
 go 1.24.0
 
 require (
+	github.com/GUAIK-ORG/go-snowflake v0.0.0-20200116064823-220c4260e85f
 	github.com/dzwvip/gorm-oracle v0.1.2
 	github.com/fsnotify/fsnotify v1.9.0
 	github.com/redis/go-redis/v9 v9.16.0
@@ -18,7 +19,6 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/GUAIK-ORG/go-snowflake v0.0.0-20200116064823-220c4260e85f // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
@@ -43,7 +43,9 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.44.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
 	golang.org/x/sync v0.18.0 // indirect
 	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/text v0.31.0 // indirect
+	resty.dev/v3 v3.0.0-beta.3 // indirect
 )

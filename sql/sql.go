@@ -26,13 +26,13 @@ var (
 )
 
 type (
-	IdModel struct {
+	Snowflake struct {
 		ID int64 `gorm:"primarykey;column:id;autoIncrement:false" json:"id"` // 主键ID
 	}
-	AutoIncrementIdModel struct {
+	AutoIncrement struct {
 		ID int64 `gorm:"primarykey;column:id unsigned" json:"id"` // 主键ID
 	}
-	VersionModel struct {
+	OptimisticLock struct {
 		Version optimisticlock.Version `gorm:"column:_version;type:int unsigned" json:"-"`
 	}
 	TimeModel struct {

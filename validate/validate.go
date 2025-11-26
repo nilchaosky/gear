@@ -8,7 +8,10 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-func ParseError(err error, obj interface{}) string {
+func FieldParseError(err error, obj interface{}) string {
+	if err == nil {
+		return ""
+	}
 	var res string
 
 	objType := reflect.TypeOf(obj)
@@ -29,7 +32,11 @@ func ParseError(err error, obj interface{}) string {
 			if !ok || tag == "" {
 				res = fmt.Sprintf("%s不合法,校验失败", name)
 			} else {
-				res = fmt.Sprintf(tag, name, e.Param())
+				if e.Param() == "" {
+					res = fmt.Sprintf(tag, name)
+				} else {
+					res = fmt.Sprintf(tag, name, e.Param())
+				}
 			}
 		}
 	}

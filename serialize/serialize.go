@@ -1,8 +1,8 @@
 package serialize
 
 import (
-	"github.com/nilchaosky/gear/utils/serialize/json"
-	"github.com/nilchaosky/gear/utils/serialize/protobuf"
+	"github.com/nilchaosky/gear/serialize/json"
+	"github.com/nilchaosky/gear/serialize/protobuf"
 )
 
 type (

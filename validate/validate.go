@@ -29,7 +29,7 @@ func ParseError(err error, obj interface{}) string {
 			if !ok || tag == "" {
 				res = fmt.Sprintf("%s不合法,校验失败", name)
 			} else {
-				res = fmt.Sprintf(tag, name, e.Field())
+				res = fmt.Sprintf(tag, name, e.Param())
 			}
 		}
 	}

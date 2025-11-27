@@ -30,10 +30,10 @@ type (
 		ID int64 `gorm:"primarykey;column:id;autoIncrement:false" json:"id"` // 主键ID
 	}
 	AutoIncrement struct {
-		ID int64 `gorm:"primarykey;column:id unsigned" json:"id"` // 主键ID
+		ID int64 `gorm:"primarykey;column:id;" json:"id"` // 主键ID
 	}
 	OptimisticLock struct {
-		Version optimisticlock.Version `gorm:"column:_version;type:int unsigned" json:"-"`
+		Version optimisticlock.Version `gorm:"column:_version;type:int" json:"-"`
 	}
 	TimeModel struct {
 		CreatedAt time.Time `gorm:"column:created_at;not null" json:"created_at"` // 创建时间

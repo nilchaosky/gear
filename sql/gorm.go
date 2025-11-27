@@ -5,19 +5,19 @@ import (
 	"gorm.io/gorm"
 )
 
-func Gorm(DBType DBType, DBName string) *gorm.DB {
+func RegisterGorm(DBType DBType, DBName string) *gorm.DB {
 	ActiveDBName = &DBName
 	switch DBType {
 	case mysqlType:
-		DB = gormMysql()
+		DB = initMysql()
 	case postgresqlType:
-		DB = gormPgSql()
+		DB = initPgSql()
 	case oracleType:
-		DB = gormOracle()
+		DB = initOracle()
 	case sqliteType:
-		DB = gormSqlite()
+		DB = initSqlite()
 	default:
-		DB = gormMysql()
+		DB = initMysql()
 	}
 	logz.Print.Info("Database connection successful")
 	return DB

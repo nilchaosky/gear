@@ -8,11 +8,6 @@ import (
 	"go.uber.org/zap"
 )
 
-var (
-	Client    redis.UniversalClient
-	ClientMap map[string]redis.UniversalClient
-)
-
 func initRedisClient(c Config) (redis.UniversalClient, error) {
 	var client redis.UniversalClient
 	// 使用集群模式
@@ -39,16 +34,16 @@ func initRedisClient(c Config) (redis.UniversalClient, error) {
 	return client, nil
 }
 
-func Redis(c Config) {
+func Register(c Config) {
 	client, err := initRedisClient(c)
 	if err != nil {
 		panic(err)
 	}
-	Client = client
+	ToolKit = newTool(client)
 }
 
-func RedisList(list []Config) {
-	redisMap := make(map[string]redis.UniversalClient)
+func RegisterList(list []Config) {
+	ToolKits = map[string]*tool{}
 
 	for _, c := range list {
 		if c.Name != "" {
@@ -56,9 +51,7 @@ func RedisList(list []Config) {
 			if err != nil {
 				panic(err)
 			}
-			redisMap[c.Name] = client
+			ToolKits[c.Name] = newTool(client)
 		}
 	}
-
-	ClientMap = redisMap
 }

@@ -19,13 +19,13 @@ func (m *OracleCfg) dsn() string {
 	return dsn
 }
 
-// gormOracle 初始化oracle数据库
-func gormOracle() *gorm.DB {
+// initOracle 初始化oracle数据库
+func initOracle() *gorm.DB {
 	return initOracleDatabase(Oracle)
 }
 
-// GormOracleByconfig 初始化Oracle数据库用过传入配置
-func GormOracleByconfig(m OracleCfg) *gorm.DB {
+// InitOracleByConfig 初始化Oracle数据库用过传入配置
+func InitOracleByConfig(m OracleCfg) *gorm.DB {
 	return initOracleDatabase(m)
 }
 

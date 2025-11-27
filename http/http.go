@@ -9,12 +9,12 @@ import (
 	"resty.dev/v3"
 )
 
-var Client *resty.Client
+var Resty *resty.Client
 
-func NewClient() *resty.Client {
+func RegisterResty() *resty.Client {
 	client := resty.New()
 	client.SetDebug(true)
-	Client = client
+	Resty = client
 	return client
 }
 
@@ -22,7 +22,7 @@ func RestyDo[T any](
 	do func(*resty.Request) (*resty.Response, error),
 	result *T, e any,
 ) (*T, error) {
-	resp, err := do(Client.R().SetResult(result).SetError(e))
+	resp, err := do(Resty.R().SetResult(result).SetError(e))
 
 	if err != nil {
 		log.Printf(": %v", err)

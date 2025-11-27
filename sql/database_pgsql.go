@@ -21,15 +21,15 @@ func (p *PgsqlCfg) linkDsn(dbname string) string {
 	return "host=" + p.Path + " user=" + p.Username + " password=" + p.Password + " dbname=" + dbname + " port=" + p.Port + " " + p.Config
 }
 
-// gormPgSql 初始化 Postgresql 数据库
+// initPgSql 初始化 Postgresql 数据库
 // Author [piexlmax](https://github.com/piexlmax)
 // Author [SliverHorn](https://github.com/SliverHorn)
-func gormPgSql() *gorm.DB {
+func initPgSql() *gorm.DB {
 	return initPgSqlDatabase(Pgsql)
 }
 
-// GormPgSqlByConfig 初始化 Postgresql 数据库 通过指定参数
-func GormPgSqlByConfig(p PgsqlCfg) *gorm.DB {
+// InitPgSqlByConfig 初始化 Postgresql 数据库 通过指定参数
+func InitPgSqlByConfig(p PgsqlCfg) *gorm.DB {
 	return initPgSqlDatabase(p)
 }
 

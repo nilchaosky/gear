@@ -13,16 +13,16 @@ func (m *MysqlCfg) dsn() string {
 	return m.Username + ":" + m.Password + "@tcp(" + m.Path + ":" + m.Port + ")/" + m.Dbname + "?" + m.Config
 }
 
-// gormMysql 初始化Mysql数据库
+// initMysql 初始化Mysql数据库
 // Author [piexlmax](https://github.com/piexlmax)
 // Author [SliverHorn](https://github.com/SliverHorn)
 // Author [ByteZhou-2018](https://github.com/ByteZhou-2018)
-func gormMysql() *gorm.DB {
+func initMysql() *gorm.DB {
 	return initMysqlDatabase(Mysql)
 }
 
-// GormMysqlByconfig 通过传入配置初始化Mysql数据库
-func GormMysqlByconfig(m MysqlCfg) *gorm.DB {
+// InitMysqlByConfig 通过传入配置初始化Mysql数据库
+func InitMysqlByConfig(m MysqlCfg) *gorm.DB {
 	return initMysqlDatabase(m)
 }
 

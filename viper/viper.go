@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func Viper(mod CfgMod, cfg any) (*viper.Viper, string) {
+func Register(mod CfgMod, cfg any) (*viper.Viper, string) {
 	config := getConfigPath(mod)
 
 	v := viper.New()

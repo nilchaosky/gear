@@ -15,13 +15,13 @@ func (s *SqliteCfg) dsn() string {
 	return filepath.Join(s.Path, s.Dbname+".db")
 }
 
-// gormSqlite 初始化Sqlite数据库
-func gormSqlite() *gorm.DB {
+// initSqlite 初始化Sqlite数据库
+func initSqlite() *gorm.DB {
 	return initSqliteDatabase(Sqlite)
 }
 
-// GormSqliteByconfig 初始化Sqlite数据库用过传入配置
-func GormSqliteByconfig(s SqliteCfg) *gorm.DB {
+// InitSqliteByConfig 初始化Sqlite数据库用过传入配置
+func InitSqliteByConfig(s SqliteCfg) *gorm.DB {
 	return initSqliteDatabase(s)
 }
 

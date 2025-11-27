@@ -19,9 +19,9 @@ func defaultLogger() *zap.Logger {
 	return logger
 }
 
-// Zap 获取 zap.Logger
+// Register 获取 zap.Logger
 // Author [SliverHorn](https://github.com/SliverHorn)
-func Zap(c Config) (logger *zap.Logger) {
+func Register(c Config) (logger *zap.Logger) {
 	config = c
 	if config.Director == "" {
 		config.Director = "logs"

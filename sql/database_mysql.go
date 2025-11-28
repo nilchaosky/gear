@@ -32,13 +32,13 @@ func initMysqlDatabase(m MysqlCfg) *gorm.DB {
 		return nil
 	}
 
-	mysqlconfig := mysql.Config{
+	config := mysql.Config{
 		DSN:                       m.dsn(), // DSN data source name
-		DefaultStringSize:         191,     // string 类型字段的默认长度
-		SkipInitializeWithVersion: false,   // 根据版本自动配置
+		DefaultStringSize:         100,     // string 类型字段的默认长度
+		SkipInitializeWithVersion: false,   // 根据版本自动配置,
 	}
 	// 数据库配置
-	if db, err := gorm.Open(mysql.New(mysqlconfig), m.deploy()); err != nil {
+	if db, err := gorm.Open(mysql.New(config), m.deploy()); err != nil {
 		panic(err)
 	} else {
 		db.InstanceSet("gorm:table_options", "ENGINE="+m.Engine)

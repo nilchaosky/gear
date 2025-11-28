@@ -6,9 +6,9 @@ type toolList interface {
 	LPush(ctx context.Context, key string, values ...interface{}) error
 	RPush(ctx context.Context, key string, values ...interface{}) error
 	LPop(ctx context.Context, key string) (string, error)
-	LPopToStruct(ctx context.Context, key string, result interface{}) error
+	LPopToStruct(ctx context.Context, key string, value interface{}) error
 	RPop(ctx context.Context, key string) (string, error)
-	RPopToStruct(ctx context.Context, key string, result interface{}) error
+	RPopToStruct(ctx context.Context, key string, value interface{}) error
 	LLen(ctx context.Context, key string) (int64, error)
 	LRange(ctx context.Context, key string, start, stop int64) ([]string, error)
 }
@@ -29,10 +29,8 @@ func (t *tool) LPop(ctx context.Context, key string) (string, error) {
 }
 
 // LPopToStruct 列表左推出并转换
-func (t *tool) LPopToStruct(ctx context.Context, key string, result interface{}) error {
-	return toStruct(t, ctx, key, result, func(t *tool, ctx context.Context, key string) (string, error) {
-		return t.client.LPop(ctx, key).Result()
-	})
+func (t *tool) LPopToStruct(ctx context.Context, key string, value interface{}) error {
+	return t.client.LPop(ctx, key).Scan(value)
 }
 
 // RPop 列表右推出
@@ -41,10 +39,8 @@ func (t *tool) RPop(ctx context.Context, key string) (string, error) {
 }
 
 // RPopToStruct 列表右推出并转换
-func (t *tool) RPopToStruct(ctx context.Context, key string, result interface{}) error {
-	return toStruct(t, ctx, key, result, func(t *tool, ctx context.Context, key string) (string, error) {
-		return t.client.RPop(ctx, key).Result()
-	})
+func (t *tool) RPopToStruct(ctx context.Context, key string, value interface{}) error {
+	return t.client.RPop(ctx, key).Scan(value)
 }
 
 // LLen 获取列表长度

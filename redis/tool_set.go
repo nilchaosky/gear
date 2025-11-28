@@ -6,7 +6,7 @@ type toolSet interface {
 	SAdd(ctx context.Context, key string, members ...interface{}) error
 	SRem(ctx context.Context, key string, members ...interface{}) error
 	SRandMember(ctx context.Context, key string) (string, error)
-	SRandMemberToStruct(ctx context.Context, key string, result interface{}) error
+	SRandMemberToStruct(ctx context.Context, key string, value interface{}) error
 	SIsMember(ctx context.Context, key string, member interface{}) (bool, error)
 }
 
@@ -27,10 +27,8 @@ func (t *tool) SRandMember(ctx context.Context, key string) (string, error) {
 }
 
 // SRandMemberToStruct 随机取一个元素并转换
-func (t *tool) SRandMemberToStruct(ctx context.Context, key string, result interface{}) error {
-	return toStruct(t, ctx, key, result, func(t *tool, ctx context.Context, key string) (string, error) {
-		return t.client.SRandMember(ctx, key).Result()
-	})
+func (t *tool) SRandMemberToStruct(ctx context.Context, key string, value interface{}) error {
+	return t.client.SRandMember(ctx, key).Scan(value)
 }
 
 // SIsMember 判断成员是否存在

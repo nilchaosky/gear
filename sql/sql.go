@@ -36,8 +36,8 @@ type (
 		Version optimisticlock.Version `gorm:"column:_version;type:int" json:"-"`
 	}
 	TimeModel struct {
-		CreatedAt time.Time `gorm:"column:created_at;not null" json:"created_at"` // 创建时间
-		UpdatedAt time.Time `gorm:"column:updated_at;not null" json:"updated_at"` // 更新时间
+		CreatedAt time.Time `gorm:"column:created_at;type:datetime;not null" json:"created_at"` // 创建时间
+		UpdatedAt time.Time `gorm:"column:updated_at;type:datetime;not null" json:"updated_at"` // 更新时间
 	}
 	DeleteModel struct {
 		DeletedAt gorm.DeletedAt `gorm:"index;column:deleted_at" json:"-"` //软删除

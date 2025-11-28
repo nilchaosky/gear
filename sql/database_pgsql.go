@@ -38,12 +38,12 @@ func initPgSqlDatabase(p PgsqlCfg) *gorm.DB {
 	if p.Dbname == "" {
 		return nil
 	}
-	pgsqlConfig := postgres.Config{
+	config := postgres.Config{
 		DSN:                  p.dsn(), // DSN data source name
 		PreferSimpleProtocol: false,
 	}
 	// 数据库配置
-	if db, err := gorm.Open(postgres.New(pgsqlConfig), p.deploy()); err != nil {
+	if db, err := gorm.Open(postgres.New(config), p.deploy()); err != nil {
 		panic(err)
 	} else {
 		sqlDB, _ := db.DB()

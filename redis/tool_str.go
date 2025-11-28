@@ -9,9 +9,9 @@ import (
 )
 
 type toolString interface {
-	Cache(ctx context.Context, key string, result interface{}, exp time.Duration, fn func(param interface{}) error) error
+	Cache(ctx context.Context, key string, value interface{}, exp time.Duration, fn func(param interface{}) error) error
 	Get(ctx context.Context, key string) (string, error)
-	GetToStruct(ctx context.Context, key string, result interface{}) error
+	GetToStruct(ctx context.Context, key string, value interface{}) error
 	Set(ctx context.Context, key string, value interface{}) error
 	SetEx(ctx context.Context, key string, value interface{}, exp time.Duration) error
 	SetNX(ctx context.Context, key string, value interface{}) error
@@ -20,15 +20,18 @@ type toolString interface {
 	SetXEX(ctx context.Context, key string, value interface{}, exp time.Duration) error
 }
 
-func (t *tool) Cache(ctx context.Context, key string, result interface{}, exp time.Duration, fn func(param interface{}) error) error {
-	err := t.GetToStruct(ctx, key, result)
+func (t *tool) Cache(ctx context.Context, key string, value interface{}, exp time.Duration, fn func() error) error {
+	err := t.GetToStruct(ctx, key, value)
 	if err != nil {
 		if errors.Is(err, redis.Nil) {
-			err = fn(result)
+			err = fn()
 			if err != nil {
 				return err
 			}
-			err = t.SetEx(ctx, key, result, exp)
+			if value == nil {
+				return nil
+			}
+			err = t.SetEx(ctx, key, value, exp)
 			if err != nil {
 				return err
 			}
@@ -45,8 +48,8 @@ func (t *tool) Get(ctx context.Context, key string) (string, error) {
 }
 
 // GetToStruct 获取数据并转换
-func (t *tool) GetToStruct(ctx context.Context, key string, result interface{}) error {
-	return toStruct(t, ctx, key, result, func(t *tool, ctx context.Context, key string) (string, error) {
+func (t *tool) GetToStruct(ctx context.Context, key string, value interface{}) error {
+	return toStruct(t, ctx, key, value, func(t *tool, ctx context.Context, key string) (string, error) {
 		return t.Get(ctx, key)
 	})
 }

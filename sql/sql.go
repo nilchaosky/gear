@@ -1,8 +1,6 @@
 package sql
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -23,10 +21,3 @@ var (
 	Oracle       OracleCfg
 	Sqlite       SqliteCfg
 )
-
-type JsonTime time.Time
-
-func (j JsonTime) MarshalJSON() ([]byte, error) {
-	formatted := time.Time(j).Format(time.DateTime)
-	return []byte(`"` + formatted + `"`), nil
-}

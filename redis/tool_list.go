@@ -1,6 +1,10 @@
 package redis
 
-import "context"
+import (
+	"context"
+
+	"github.com/nilchaosky/gear/utils"
+)
 
 type toolList interface {
 	LPush(ctx context.Context, key string, values ...interface{}) error
@@ -30,6 +34,9 @@ func (t *tool) LPop(ctx context.Context, key string) (string, error) {
 
 // LPopToStruct 列表左推出并转换
 func (t *tool) LPopToStruct(ctx context.Context, key string, value interface{}) error {
+	if err := utils.ValidateNotNilStructPtr(value); err != nil {
+		return err
+	}
 	return t.client.LPop(ctx, key).Scan(value)
 }
 
@@ -40,6 +47,9 @@ func (t *tool) RPop(ctx context.Context, key string) (string, error) {
 
 // RPopToStruct 列表右推出并转换
 func (t *tool) RPopToStruct(ctx context.Context, key string, value interface{}) error {
+	if err := utils.ValidateNotNilStructPtr(value); err != nil {
+		return err
+	}
 	return t.client.RPop(ctx, key).Scan(value)
 }
 

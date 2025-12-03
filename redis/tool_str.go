@@ -5,6 +5,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/nilchaosky/gear/utils"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -21,25 +22,23 @@ type toolString interface {
 }
 
 func (t *tool) Cache(ctx context.Context, key string, value interface{}, exp time.Duration, fn func() error) error {
-	err := t.client.Get(ctx, key).Scan(value)
-	if err != nil {
-		if errors.Is(err, redis.Nil) {
-			err = fn()
-			if err != nil {
-				return err
-			}
-			if value == nil {
-				return nil
-			}
-			err = t.SetEx(ctx, key, value, exp)
-			if err != nil {
-				return err
-			}
-			return nil
-		}
+	if err := utils.ValidateNotNilStructPtr(value); err != nil {
 		return err
 	}
-	return nil
+	err := t.client.Get(ctx, key).Scan(value)
+	if err == nil {
+		return nil // hit
+	}
+
+	if !errors.Is(err, redis.Nil) {
+		return err
+	}
+
+	if err := fn(); err != nil {
+		return err
+	}
+
+	return t.SetEx(ctx, key, value, exp)
 }
 
 // Get 获取数据
@@ -49,6 +48,9 @@ func (t *tool) Get(ctx context.Context, key string) (string, error) {
 
 // GetToStruct 获取数据并转换
 func (t *tool) GetToStruct(ctx context.Context, key string, value interface{}) error {
+	if err := utils.ValidateNotNilStructPtr(value); err != nil {
+		return err
+	}
 	return t.client.Get(ctx, key).Scan(value)
 }
 

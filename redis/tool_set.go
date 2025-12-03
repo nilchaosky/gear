@@ -1,6 +1,10 @@
 package redis
 
-import "context"
+import (
+	"context"
+
+	"github.com/nilchaosky/gear/utils"
+)
 
 type toolSet interface {
 	SAdd(ctx context.Context, key string, members ...interface{}) error
@@ -28,6 +32,9 @@ func (t *tool) SRandMember(ctx context.Context, key string) (string, error) {
 
 // SRandMemberToStruct 随机取一个元素并转换
 func (t *tool) SRandMemberToStruct(ctx context.Context, key string, value interface{}) error {
+	if err := utils.ValidateNotNilStructPtr(value); err != nil {
+		return err
+	}
 	return t.client.SRandMember(ctx, key).Scan(value)
 }
 

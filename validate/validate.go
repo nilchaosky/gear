@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -26,7 +27,11 @@ func FieldParseError(err error, obj interface{}) string {
 	}
 
 	for _, e := range errs {
-		field, _ := objType.FieldByName(e.Field())
+		fullField := e.Field()
+		parts := strings.Split(fullField, ".")
+		fieldName := parts[len(parts)-1]
+
+		field, _ := objType.FieldByName(fieldName)
 		name := field.Name
 		if lbl := field.Tag.Get("label"); lbl != "" {
 			name = lbl

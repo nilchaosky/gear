@@ -21,22 +21,24 @@ func FieldParseError(err error, obj interface{}) string {
 	}
 
 	var errs validator.ValidationErrors
-	if errors.As(err, &errs) {
-		for _, e := range errs {
-			field, _ := objType.FieldByName(e.Field())
-			name := field.Name
-			if lbl := field.Tag.Get("label"); lbl != "" {
-				name = lbl
-			}
-			tag, ok := validatorTagMap[e.Tag()]
-			if !ok || tag == "" {
-				res = fmt.Sprintf("%s不合法,校验失败", name)
+	if !errors.As(err, &errs) {
+		return err.Error()
+	}
+
+	for _, e := range errs {
+		field, _ := objType.FieldByName(e.Field())
+		name := field.Name
+		if lbl := field.Tag.Get("label"); lbl != "" {
+			name = lbl
+		}
+		tag, ok := validatorTagMap[e.Tag()]
+		if !ok || tag == "" {
+			res = fmt.Sprintf("%s不合法,校验失败", name)
+		} else {
+			if e.Param() == "" {
+				res = fmt.Sprintf(tag, name)
 			} else {
-				if e.Param() == "" {
-					res = fmt.Sprintf(tag, name)
-				} else {
-					res = fmt.Sprintf(tag, name, e.Param())
-				}
+				res = fmt.Sprintf(tag, name, e.Param())
 			}
 		}
 	}

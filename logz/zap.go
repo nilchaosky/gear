@@ -21,7 +21,7 @@ func defaultLogger() *zap.Logger {
 
 // Register 获取 zap.Logger
 // Author [SliverHorn](https://github.com/SliverHorn)
-func Register(c Config) (logger *zap.Logger) {
+func Register(c Config) {
 	config = c
 	if config.Director == "" {
 		config.Director = "logs"
@@ -37,10 +37,9 @@ func Register(c Config) (logger *zap.Logger) {
 		core := newZapCore(levels[i])
 		cores = append(cores, core)
 	}
-	logger = zap.New(zapcore.NewTee(cores...))
+	logger := zap.New(zapcore.NewTee(cores...))
 	if config.ShowLine {
 		logger = logger.WithOptions(zap.AddCaller())
 	}
 	Print = logger
-	return logger
 }

@@ -1,7 +1,7 @@
 package response
 
 type (
-	response[T any] struct {
+	Response[T any] struct {
 		Code    int    `json:"code"`
 		Message string `json:"message"`
 		Data    T      `json:"data"`
@@ -15,31 +15,31 @@ type (
 	}
 )
 
-func Success[T any](data T) *response[T] {
-	return &response[T]{
+func Success[T any](data T) *Response[T] {
+	return &Response[T]{
 		Code:    0,
 		Message: "success",
 		Data:    data,
 	}
 }
 
-func SuccessNull() *response[any] {
-	return &response[any]{
+func SuccessNull() *Response[any] {
+	return &Response[any]{
 		Code:    0,
 		Message: "success",
 	}
 }
 
-func SuccessPage[T any](page *Page[T]) *response[*Page[T]] {
-	return &response[*Page[T]]{
+func SuccessPage[T any](page *Page[T]) *Response[*Page[T]] {
+	return &Response[*Page[T]]{
 		Code:    0,
 		Message: "success",
 		Data:    page,
 	}
 }
 
-func Fail(message string) *response[any] {
-	return &response[any]{
+func Fail(message string) *Response[any] {
+	return &Response[any]{
 		Code:    -1,
 		Message: message,
 		Data:    nil,

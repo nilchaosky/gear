@@ -5,6 +5,11 @@ import (
 	"github.com/nilchaosky/gear/serialize/protobuf"
 )
 
+var (
+	Json     = json.NewSerializer()
+	Protobuf = protobuf.NewSerializer()
+)
+
 type (
 
 	// Marshaler represents a marshal interface
@@ -22,9 +27,4 @@ type (
 		Marshaler
 		Unmarshaler
 	}
-)
-
-var (
-	Json     *json.Serializer
-	Protobuf *protobuf.Serializer
 )

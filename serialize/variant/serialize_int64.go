@@ -30,3 +30,7 @@ func (s *SerializeInt64) UnmarshalJSON(b []byte) error {
 func (s SerializeInt64) Value() (driver.Value, error) {
 	return int64(s), nil
 }
+
+func (s SerializeInt64) String() string {
+	return strconv.FormatInt(int64(s), 10)
+}

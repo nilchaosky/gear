@@ -4,11 +4,10 @@ import "github.com/GUAIK-ORG/go-snowflake/snowflake"
 
 var Builder *snowflake.Snowflake
 
-func Register(datacenterId, workerId int) *snowflake.Snowflake {
-	sf, err := snowflake.NewSnowflake(int64(datacenterId), int64(workerId))
+func Register(datacenterID, workerID int) {
+	sf, err := snowflake.NewSnowflake(int64(datacenterID), int64(workerID))
 	if err != nil {
 		panic(err)
 	}
 	Builder = sf
-	return sf
 }

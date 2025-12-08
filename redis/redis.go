@@ -5,6 +5,7 @@ import (
 
 	"github.com/nilchaosky/gear/logz"
 	"github.com/redis/go-redis/v9"
+	"github.com/redis/go-redis/v9/maintnotifications"
 	"go.uber.org/zap"
 )
 
@@ -15,6 +16,9 @@ func initRedisClient(c Config) (redis.UniversalClient, error) {
 		client = redis.NewClusterClient(&redis.ClusterOptions{
 			Addrs:    c.Cluster.AddrList,
 			Password: c.Password,
+			MaintNotificationsConfig: &maintnotifications.Config{
+				Mode: maintnotifications.ModeDisabled,
+			},
 		})
 	} else {
 		// 使用单例模式
@@ -22,6 +26,9 @@ func initRedisClient(c Config) (redis.UniversalClient, error) {
 			Addr:     c.Addr,
 			Password: c.Password,
 			DB:       c.DB,
+			MaintNotificationsConfig: &maintnotifications.Config{
+				Mode: maintnotifications.ModeDisabled,
+			},
 		})
 	}
 	pong, err := client.Ping(context.Background()).Result()
